@@ -1,8 +1,8 @@
 ﻿using Application.Repositories;
 using Dapper;
 using Domain.Common;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
-using System.Data.SqlClient;
 using System.Reflection;
 
 namespace Infrastructure.Repositories
@@ -14,7 +14,7 @@ namespace Infrastructure.Repositories
 
         public BaseRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection")!;
+            _connectionString = configuration.GetConnectionString("Sqlite")!;
             _tableName = typeof(T).Name;
         }
 
@@ -24,7 +24,7 @@ namespace Infrastructure.Repositories
             var stringOfColumns = string.Join(", ", columns);
             var stringOfParameters = string.Join(", ", columns.Select(e => "@" + e));
             var query = $"INSERT INTO {_tableName} ({stringOfColumns}) VALUES ({stringOfParameters})";
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            using (SqliteConnection  conn = new SqliteConnection (_connectionString))
             {
                 conn.Open();
                 var result = await conn.ExecuteAsync(query, entity);
@@ -34,7 +34,7 @@ namespace Infrastructure.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            using (SqlConnection conn = new(_connectionString))
+            using (SqliteConnection  conn = new(_connectionString))
             {
                 conn.Open();
                 await conn.ExecuteAsync($"DELETE FROM {_tableName} WHERE [Id] = @Id", new { Id = id });
@@ -43,7 +43,7 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            using (SqlConnection conn = new SqlConnection(_connectionString))
+            using (SqliteConnection  conn = new(_connectionString))
             {
                 conn.Open();
                 var data = await conn.QueryAsync<T>($"SELECT * FROM {_tableName}");
@@ -53,7 +53,7 @@ namespace Infrastructure.Repositories
 
         public async Task<T> GetByIdAsync(int id)
         {
-            using (SqlConnection conn = new(_connectionString))
+            using (SqliteConnection  conn = new(_connectionString))
             {
                 conn.Open();
                 var data = await conn.QueryAsync<T>($"SELECT * FROM {_tableName} WHERE Id = @Id", new { Id = id });
@@ -68,7 +68,7 @@ namespace Infrastructure.Repositories
             if (!string.IsNullOrWhiteSpace(where))
                 query += where;
 
-            using (SqlConnection conn = new(_connectionString))
+            using (SqliteConnection  conn = new(_connectionString))
             {
                 conn.Open();
                 var data = await conn.QueryAsync<T>(query);
@@ -82,7 +82,7 @@ namespace Infrastructure.Repositories
             var stringOfColumns = string.Join(", ", columns.Select(e => $"{e} = @{e}"));
             var query = $"UPDATE {_tableName} SET {stringOfColumns} WHERE Id = @Id";
 
-            using (SqlConnection conn = new(_connectionString))
+            using (SqliteConnection  conn = new(_connectionString))
             {
                 conn.Open();
                 await conn.ExecuteAsync(query, entity);

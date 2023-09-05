@@ -12,10 +12,11 @@ namespace Application.Pet.Commands.CreatePet
     public class CreatePetCommandHandler : IRequestHandler<CreatePetCommand, int>
     {
         protected IPetRepository _petRepository;
-        public CreatePetCommandHandler(IPetRepository petRepository)
+        protected readonly IUnitOfWork _unitOfWork;
+        public CreatePetCommandHandler(IPetRepository petRepository, IUnitOfWork unitOfWork)
         {
-            //TODO: Inyectar contexto
             _petRepository = petRepository;
+            _unitOfWork = unitOfWork;
         }
         public async Task<int> Handle(CreatePetCommand request, CancellationToken cancellationToken)
         {

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Repositories;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,19 @@ namespace Application.Pet.Commands.DeletePet
 {
     public class DeletePetCommandHandler : IRequestHandler<DeletePetCommand>
     {
-        public Task Handle(DeletePetCommand request, CancellationToken cancellationToken)
+        protected IPetRepository _petRepository;
+        public DeletePetCommandHandler(IPetRepository petRepository)
         {
-            throw new NotImplementedException();
+            _petRepository = petRepository;
+        }
+        public async Task Handle(DeletePetCommand request, CancellationToken cancellationToken)
+        {
+            var pet = await _petRepository.GetByIdAsync(request.Id);
+
+            if (pet != null)
+            {
+                await _petRepository.DeleteAsync(request.Id);
+            }
         }
     }
 }

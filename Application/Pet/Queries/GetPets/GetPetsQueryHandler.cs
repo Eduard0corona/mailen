@@ -1,17 +1,19 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.Repositories;
+using MediatR;
 
 namespace Application.Pet.Queries.GetPets
 {
-    public class GetPetsQueryHandler : IRequestHandler<GetPetsQuery, PetDto>
+    public class GetPetsQueryHandler : IRequestHandler<GetPetsQuery, IEnumerable<Domain.Entities.Pet>>
     {
-        public Task<PetDto> Handle(GetPetsQuery request, CancellationToken cancellationToken)
+        readonly IPetRepository _petRepository;
+        public GetPetsQueryHandler(IPetRepository petRepository)
         {
-            throw new NotImplementedException();
+            _petRepository = petRepository;
+        }
+
+        public async Task<IEnumerable<Domain.Entities.Pet>> Handle(GetPetsQuery request, CancellationToken cancellationToken)
+        {
+            return await _petRepository.GetAllAsync();
         }
     }
 }
