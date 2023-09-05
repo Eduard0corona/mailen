@@ -29,7 +29,7 @@ namespace Infrastructure.Repositories
             using (SqlConnection conn = new(_connectionString))
             {
                 conn.Open();
-                var data = await conn.QueryAsync<Pet>(query, parameters);
+                var data = await conn.QueryFirstOrDefaultAsync<User>(query, parameters);
                 return data;
             }
         }
