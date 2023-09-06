@@ -3,6 +3,7 @@ using MediatR;
 using Domain.Entities;
 using System.Threading;
 using Application.Pet.Queries.GetPets;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApi.Controllers
@@ -22,7 +23,8 @@ namespace WebApi.Controllers
         {
              var response = await _mediator.Send(request, cancellationToken);
 
-             if(response.Token)
+             if(String.IsNullOrEmpty(response.Token))
+                return BadRequest("The attempted login has failed.");
 
             return Ok(response);
         }
