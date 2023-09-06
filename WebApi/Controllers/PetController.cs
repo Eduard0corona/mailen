@@ -3,6 +3,8 @@ using MediatR;
 using Domain.Entities;
 using System.Threading;
 using Application.Pet.Queries.GetPets;
+using Application.Pet.Queries.GetPetById;
+using Application.Pet.Commands.CreatePet;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApi.Controllers
@@ -23,20 +25,23 @@ namespace WebApi.Controllers
         public async Task<ActionResult<IEnumerable<Pet>>> GetAll(CancellationToken cancellationToken)
         {
              var response = await _mediator.Send(new GetPetsQuery(), cancellationToken);
-            return Ok(response);
+             return Ok(response);
         }
 
         // GET api/<PetController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<GetPetByIdDto>> GetPetById(int id, CancellationToken cancellationToken)
         {
-            return "value";
+            var response = await _mediator.Send(new GetPetByIdQuery(id), cancellationToken);
+            return Ok(response);
         }
 
         // POST api/<PetController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult<int>> Post(CreatePetCommand command, CancellationToken cancellationToken)
         {
+            var response = await _mediator.Send(command, cancellationToken);
+            return Ok(response);
         }
 
         // PUT api/<PetController>/5

@@ -1,19 +1,23 @@
 ﻿using Application.Repositories;
+using AutoMapper;
 using MediatR;
 
 namespace Application.Pet.Queries.GetPets
 {
-    public class GetPetsQueryHandler : IRequestHandler<GetPetsQuery, IEnumerable<Domain.Entities.Pet>>
+    public class GetPetsQueryHandler : IRequestHandler<GetPetsQuery, IEnumerable<GetPetsDto>>
     {
         readonly IPetRepository _petRepository;
-        public GetPetsQueryHandler(IPetRepository petRepository)
+        readonly IMapper _mapper;
+        public GetPetsQueryHandler(IPetRepository petRepository, IMapper mapper)
         {
             _petRepository = petRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Domain.Entities.Pet>> Handle(GetPetsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<GetPetsDto>> Handle(GetPetsQuery request, CancellationToken cancellationToken)
         {
-            return await _petRepository.GetAllAsync();
+            var pets = await _petRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<GetPetsDto>>(pets);
         }
     }
 }
