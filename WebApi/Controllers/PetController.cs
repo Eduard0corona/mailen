@@ -5,6 +5,9 @@ using System.Threading;
 using Application.Pet.Queries.GetPets;
 using Application.Pet.Queries.GetPetById;
 using Application.Pet.Commands.CreatePet;
+using Application.Pet.Commands.UpdatePet;
+using Application.Pet.Commands.DeletePet;
+using Application.Common.Exceptions;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApi.Controllers
@@ -33,6 +36,9 @@ namespace WebApi.Controllers
         public async Task<ActionResult<GetPetByIdDto>> GetPetById(int id, CancellationToken cancellationToken)
         {
             var response = await _mediator.Send(new GetPetByIdQuery(id), cancellationToken);
+            if (response == null)
+                return NotFound();
+
             return Ok(response);
         }
 
@@ -45,16 +51,24 @@ namespace WebApi.Controllers
         }
 
         // PUT api/<PetController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<ActionResult> Put(UpdatePetCommand command, CancellationToken cancellationToken)
         {
+            await _mediator.Send(command, cancellationToken);
+            return Ok();
 
         }
 
         // DELETE api/<PetController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete]
+        public async Task<ActionResult> Delete(DeletePetCommand request, CancellationToken cancellationToken)
         {
+            var response = await _mediator.Send(request, cancellationToken);
+
+            if (!response.IsDeleted)
+                throw new NotFoundException("Pet id " + request.Id + " does not exist.");
+
+            return Ok();
         }
     }
 }

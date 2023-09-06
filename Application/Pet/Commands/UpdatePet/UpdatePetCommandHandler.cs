@@ -1,4 +1,5 @@
-﻿using Application.Repositories;
+﻿using Application.Common.Exceptions;
+using Application.Repositories;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -22,13 +23,13 @@ namespace Application.Pet.Commands.UpdatePet
         {
             var pet = await _petRepository.GetByIdAsync(request.Id);
 
-            if (pet != null)
-            {
-                pet.Name = request.Name;
-                pet.Description = request.Description;
-                pet.Lineage = request.Type;
-            }
+            if (pet == null)
+                throw new NotFoundException();
 
+            pet.Name = request.Name;
+            pet.Description = request.Description;
+            pet.Lineage = request.Type;
+            
             await _petRepository.UpdateAsync(pet!);
         }
     }

@@ -17,7 +17,7 @@ namespace Application.Pet.Queries.GetPets
         public async Task<IEnumerable<GetPetsDto>> Handle(GetPetsQuery request, CancellationToken cancellationToken)
         {
             var pets = await _petRepository.GetAllAsync();
-            return _mapper.Map<IEnumerable<GetPetsDto>>(pets);
+            return _mapper.Map<List<GetPetsDto>>(pets);
         }
     }
 }

@@ -7,19 +7,19 @@ namespace Application.Pet.Queries.GetPetById
 {
     public class GetPetByIdHandler : IRequestHandler<GetPetByIdQuery, GetPetByIdDto>
     {
-        private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-        public GetPetByIdHandler(IMediator mediator, IMapper mapper)
+        readonly IMapper _mapper;
+        readonly IPetRepository _petRepository;
+
+        public GetPetByIdHandler(IPetRepository petRepository, IMapper mapper)
         {
-            _mediator = mediator;
             _mapper = mapper;
+            _petRepository = petRepository;
         }
 
         public async Task<GetPetByIdDto> Handle(GetPetByIdQuery request, CancellationToken cancellationToken)
         {
-            var pets = await _mediator.Send(new GetPetsQuery());
-            var selectedPet = pets.Where(s => s.Id == request.id).FirstOrDefault();
-            return _mapper.Map<GetPetByIdDto>(selectedPet);
+            var pet = await _petRepository.GetByIdAsync(request.id);
+            return _mapper.Map<GetPetByIdDto>(pet);
         }
     }
 }

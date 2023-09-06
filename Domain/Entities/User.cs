@@ -10,7 +10,7 @@ namespace Domain.Entities
 {
     public class User : AuditableEntity
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Email { get; set; } = string.Empty;
         [Required]
         public string PasswordHash { get; set; } = string.Empty;

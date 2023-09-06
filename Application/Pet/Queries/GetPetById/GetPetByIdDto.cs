@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Domain.Enum;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace Application.Pet.Queries.GetPetById
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public int PetId { get; set; }
+        public PetType? Lineage { get; set; }
     }
 }

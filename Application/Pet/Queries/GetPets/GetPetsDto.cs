@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,6 @@ namespace Application.Pet.Queries.GetPets
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public DateTime DateCreated { get; set; }
-        public string? CreatedBy { get; set; }
-        public DateTime? LastModified { get; set; }
-        public string? LastModifiedBy { get; set; }
+        public PetType? Lineage { get; set; }
     }
 }

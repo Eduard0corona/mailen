@@ -25,8 +25,7 @@ namespace Application.User.Commands.CreateUser
             user.PasswordHash = request.Password;
             user.Email = request.Email;
 
-            //return await _userRepository.AddAsync(user);
-            return 0;
+            return await _userRepository.AddAsync(user);
         }
     }
 }

@@ -2,5 +2,5 @@
 
 namespace Application.Pet.Commands.DeletePet
 {
-    public record DeletePetCommand(int Id) : IRequest;
+    public record DeletePetCommand(int Id) : IRequest<DeletePetCommandResponse>;
 }

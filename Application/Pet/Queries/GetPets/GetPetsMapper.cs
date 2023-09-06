@@ -13,7 +13,7 @@ namespace Application.Pet.Queries.GetPets
         public GetPetsMapper() 
         {
             CreateMap<GetPetsDto, Domain.Entities.Pet>();
-            //CreateMap<Domain.Entities.Pet, GetPetsDto>();
+            CreateMap<Domain.Entities.Pet, GetPetsDto>();
         }
     }
 }
