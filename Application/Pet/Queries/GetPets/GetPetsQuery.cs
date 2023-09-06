@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Pet.Queries.GetPets
 {
-    public record GetPetsQuery : IRequest<IEnumerable<Domain.Entities.Pet>>
+    public record GetPetsQuery : IRequest<IEnumerable<GetPetsDto>>
     {
     }
 }

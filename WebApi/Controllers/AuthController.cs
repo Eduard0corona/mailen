@@ -16,15 +16,5 @@ namespace WebApi.Controllers
         {
             _mediator = mediator;
         }
-
-        [HttpPost]
-        public async Task<ActionResult<IEnumerable<Pet>>> Login(LoginUserCommand request, CancellationToken cancellationToken)
-        {
-             var response = await _mediator.Send(request, cancellationToken);
-
-             if(response.Token)
-
-            return Ok(response);
-        }
     }
 }

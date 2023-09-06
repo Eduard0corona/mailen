@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
         public BaseRepository(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("Sqlite")!;
-            _tableName = typeof(T).Name;
+            _tableName = $"{typeof(T).Name}s";
         }
 
         public async Task<int> AddAsync(T entity)
