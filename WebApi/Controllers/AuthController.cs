@@ -3,6 +3,7 @@ using MediatR;
 using Domain.Entities;
 using System.Threading;
 using Application.Pet.Queries.GetPets;
+using Application.User.Queries.LoginUser;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,7 +20,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<Pet>>> Login(LoginUserCommand request, CancellationToken cancellationToken)
+        public async Task<ActionResult<IEnumerable<Pet>>> Login(LoginUserQuery request, CancellationToken cancellationToken)
         {
              var response = await _mediator.Send(request, cancellationToken);
 
