@@ -12,11 +12,9 @@ namespace Application.Pet.Commands.UpdatePet
     public class UpdatePetCommandHandler : IRequestHandler<UpdatePetCommand>
     {
         protected IPetRepository _petRepository;
-        protected readonly IUnitOfWork _unitOfWork;
-        public UpdatePetCommandHandler(IPetRepository petRepository, IUnitOfWork unitOfWork)
+        public UpdatePetCommandHandler(IPetRepository petRepository)
         {
             _petRepository = petRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task Handle(UpdatePetCommand request, CancellationToken cancellationToken)

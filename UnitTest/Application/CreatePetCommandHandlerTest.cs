@@ -14,10 +14,13 @@ namespace UnitTest.Application
     {
         private CreatePetCommandHandler _handler;
         private Mock<IPetRepository> _petRepository;
+        private Mock<CreatePetCommand> _createPetCommand;
+        private CancellationToken _cancellationToken;
 
-        [SetUp]
-        public void Setup()
+       
+        public CreatePetCommandHandlerTest()
         {
+            _cancellationToken = new CancellationToken();
             _petRepository = new Mock<IPetRepository>();
             _petRepository
                 .Setup(c => c.AddAsync(It.IsAny<Pet>()))
@@ -26,15 +29,20 @@ namespace UnitTest.Application
         }
 
         [Fact]
-        public async Task test2()
+        public async Task when_createPet_then_success()
         {
             //Arrange
+            _createPetCommand = new Mock<CreatePetCommand>();
 
-            //Act
+            _createPetCommand.Object.Name = "firu";
+            _createPetCommand.Object.Description = "lorem ipsum";
 
+            //Action
+            var response = await _handler.Handle(_createPetCommand.Object, _cancellationToken);
+           
             //Assert
-
-            Assert.AreEqual(1, 1);
+            Assert.AreEqual(response, 1); 
+            _petRepository.Verify(d => d.AddAsync(It.IsAny<Pet>()), Times.Exactly(1));       
         }
     }
 }
