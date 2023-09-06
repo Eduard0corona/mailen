@@ -22,7 +22,7 @@ namespace Application.User.Commands.CreateUser
         {
             var user = new Domain.Entities.User();
             user.Name = request.Name;
-            user.PasswordHash = request.Password;
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
             user.Email = request.Email;
 
             return await _userRepository.AddAsync(user);

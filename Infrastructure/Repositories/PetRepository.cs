@@ -21,7 +21,7 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Pet>> GetPetByNameAsync(string name, CancellationToken cancellationToken)
         {
-            var query = $"SELECT * FROM Pet WHERE Name = @name ";
+            var query = $"SELECT * FROM Pets WHERE Name = @name ";
 
             var parameters = new DynamicParameters();
             parameters.Add("name", name, DbType.String);

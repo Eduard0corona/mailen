@@ -20,7 +20,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<LoginUserDto>>> Login(LoginUserQuery request, CancellationToken cancellationToken)
+        public async Task<ActionResult<LoginUserDto>> Login(LoginUserQuery request, CancellationToken cancellationToken)
         {
              var response = await _mediator.Send(request, cancellationToken);
 
