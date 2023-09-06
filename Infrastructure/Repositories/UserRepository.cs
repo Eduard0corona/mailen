@@ -21,7 +21,7 @@ namespace Infrastructure.Repositories
 
         public async Task<User> GetByEmail(string email, CancellationToken cancellationToken)
         {
-            var query = $"SELECT * FROM User WHERE Email = @email ";
+            var query = $"SELECT * FROM Users WHERE Email = @email ";
 
             var parameters = new DynamicParameters();
             parameters.Add("Email", email, DbType.String);
